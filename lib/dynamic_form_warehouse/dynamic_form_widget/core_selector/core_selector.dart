@@ -234,19 +234,19 @@ Widget selectorBox(
   StreamController<dynamic> streamController,
 ) {
   final title = Item['title'];
-  final borderRadius = Item['borderRadius'];
+  final borderRadius =Util.convertToDouble(Item['borderRadius']) ;
   final initValue = map[Item['key']];
   final contentValidateEmpty = Item['contentValidateEmpty'];
   final titleColor = Util.convertFromHexToColor(Item['titleColor']);
-  final titleSize = Item['titleSize'];
+  final titleSize = Util.convertToDouble(Item['titleSize']);
   final errorBorderColor = Util.convertFromHexToColor(Item['errorBorderColor']);
   final focusBorderColor = Util.convertFromHexToColor(Item['focusBorderColor']);
   final borderColor = Util.convertFromHexToColor(Item['borderColor']);
-  final contentPadding = Item['contentPadding'];
+  final contentPadding = Util.convertToDouble(Item['contentPadding']);
   final hintText = Item['hintText'];
-  final hintSize = Item['hintSize'];
+  final hintSize = Util.convertToDouble(Item['hintSize']);
   final hintColor = Util.convertFromHexToColor(Item['hintColor']);
-  final textSize = Item['textSize'];
+  final textSize = Util.convertToDouble(Item['textSize']);
   final textColor = Util.convertFromHexToColor(Item['textColor']);
   final isRequired = Item['isRequired'];
   final enable = Item['enable'];
@@ -255,8 +255,11 @@ Widget selectorBox(
   final url = Item['data']['url'];
   final hardData = Item['data']['hardData'];
   final partnerMap = map[Item['partnerMap']] as SelectorModel?;
-  final request =
-      Util.getRequest(Item['data']['request'], partnerMap?.toJson());
+  print('-----------partnerMap-------------$partnerMap');
+  print('-----------requestJson-------------${Item['data']['request']}');
+  final request = Util.getRequest(
+      Util.convertToListMap(Item['data']['request']), partnerMap?.toJson());
+  print('-----------request-------------$request');
   final hasTitle = Item['hasTitle'];
   final titleFontWeight =
       Util.convertFromStringToFontWeight(Item['titleFontWeight']);

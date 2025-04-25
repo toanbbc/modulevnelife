@@ -373,8 +373,11 @@ Future<Map<String, dynamic>> getInitDataFromNative() async {
     try {
       if (call.method == 'sendData') {
         String args = call.arguments;
-        Map<String, dynamic> parsed = normalizeListInMap(jsonDecode(args));
-        completer.complete(jsonDecode(args));
+        print('------------------------arg------------$args');
+     /*   Map<String, dynamic> parsed = normalizeListInMap(jsonDecode(args));*/
+        Map<String,dynamic> json = jsonDecode(args);
+        print('------------------------json------------$json');
+        completer.complete(json);
       }
     } catch (e) {
       print("Lỗi khi parse JSON: $e");
