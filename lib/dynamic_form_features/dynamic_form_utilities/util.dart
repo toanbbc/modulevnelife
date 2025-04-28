@@ -71,7 +71,8 @@ class Util {
     }
   }
 
-  static String getRequest(List<Map<String, dynamic>>? request,
+  static String getRequest(
+    List<Map<String, dynamic>>? request,
     Map<String, dynamic>? partnerMap,
   ) {
     print('-----------requestStaert-------------$request');
@@ -96,7 +97,8 @@ class Util {
     return result;
   }
 
-  static List<Map<String, dynamic>>? convertToListMap(List<dynamic>? listDynamic) {
+  static List<Map<String, dynamic>>? convertToListMap(
+      List<dynamic>? listDynamic) {
     if (listDynamic == null) {
       return null;
     }
@@ -109,10 +111,11 @@ class Util {
 /*    return parsedList;*/
   }
 
-  static double? convertToDouble(int? value){
-    if(value == null){
-      return null;
+  static double? convertToDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is int) {
+      return value.toDouble();
     }
-    return value.toDouble();
+    return value;
   }
 }

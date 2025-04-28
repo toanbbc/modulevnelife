@@ -126,21 +126,20 @@ class _WizardState extends State<Wizard> {
         centerTitle: false,
         leading: InkWell(
           onTap: () {
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            } else {
-              print("------------------bbvvvvvvv------------");
+            if (!Navigator.canPop(context)) {
               channel.invokeMethod(
                 'finishActivity',
-                _mapAnswers,
+                jsonEncode(_mapAnswers),
               );
+            } else {
+              Navigator.pop(context);
             }
           },
           child: const Icon(Icons.arrow_back, color: Color(0xffC10800)),
         ),
         titleSpacing: 0,
         title: OneUiText.textWidget(
-          title: widget.title,
+          title: getTitleCurrentPage() ?? "",
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
@@ -203,5 +202,11 @@ class _WizardState extends State<Wizard> {
       print("-------------lỗi----------$e");
       return [SizedBox()];
     }
+  }
+
+  String? getTitleCurrentPage() {
+    final currentPage =
+        pages.firstWhere((element) => element['key'] == currentPageId);
+    return currentPage['title'] as String?;
   }
 }
