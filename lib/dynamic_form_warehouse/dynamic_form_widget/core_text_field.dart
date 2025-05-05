@@ -434,7 +434,7 @@ Widget textFieldPassword(
     borderRadius: borderRadius,
     isRequired: isRequired,
     onChanged: (value) {
-      map[Item['key']] = value;
+/*      map[Item['key']] = value;*/
       streamController.sink.add(
         MapChange(
           {
@@ -491,7 +491,7 @@ Widget textField(
     borderRadius: borderRadius,
     isRequired: isRequired,
     onChanged: (value) {
-      map[Item['key']] = value;
+/*      map[Item['key']] = value;*/
       streamController.sink.add(
         MapChange(
           {

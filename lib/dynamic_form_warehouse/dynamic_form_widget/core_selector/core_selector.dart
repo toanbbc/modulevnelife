@@ -99,6 +99,15 @@ class _OneUiSelectorState extends State<OneUiSelector> {
     }
   }
 
+  @override
+  void didUpdateWidget(covariant OneUiSelector oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      _initValue = widget.initValue;
+    });
+    textController.text = _initValue?.name ?? _initValue?.ten ?? '';
+  }
+
   Future<List<SelectorModel>> getDataFromApi() async {
     final url = widget.partnerMap == null
         ? widget.url!
@@ -287,7 +296,7 @@ Widget selectorBox(
     url: url,
     hardData: hardData,
     onChanged: (value) {
-      map[Item['key']] = value;
+/*      map[Item['key']] = value;*/
       streamController.sink.add(
         MapChange(
           {
