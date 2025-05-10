@@ -1,18 +1,18 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modulevnelife/routes.dart';
+import 'package:modulevnelife/setup_config_app.dart';
 import 'package:modulevnelife/theme.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final initData = await getInitDataFromNative();
+  final initData = InitPage.pageUrls;
 
-  runApp(MyApp(initData: initData));
+  runApp(MyApp(initData: initData!));
 }
 
 var jsondemo = {
@@ -409,7 +409,7 @@ Map<String, dynamic> normalizeListInMap(Map<String, dynamic> original) {
 }
 
 class MyApp extends StatelessWidget {
-  final Map<String, dynamic> initData;
+  final PageUrls initData;
 
   const MyApp({super.key, required this.initData});
 
