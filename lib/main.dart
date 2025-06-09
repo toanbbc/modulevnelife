@@ -9,6 +9,7 @@ import 'package:modulevnelife/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await getInitDataFromNative();
 
   final initData = InitPage.pageUrls;
 
@@ -65,33 +66,6 @@ var jsondemo = {
                   "maxLines": null,
                   "isShowSearch": true,
                 },
-                // {
-                //   "titleColor": "#696969",
-                //   "titleSize": 14.0,
-                //   "titleFontWeight": "normal",
-                //   "hintSize": 14.0,
-                //   "borderRadius": 4.0,
-                //   "hintColor": "#92969C",
-                //   "hasTitle": true,
-                //   "key": "user",
-                //   "title": "Người dân",
-                //   "type": "textfield",
-                //   "contentPadding": null,
-                //   "isRequired": true,
-                //   "enable": true,
-                //   "maxLength": null,
-                //   "hintText": "Nhập tên người phản ánh",
-                //   "contentValidateEmpty":
-                //     "Tên người phản ánh không được để trống",
-                //   "errorBorderColor": "#D4D7DA",
-                //   "focusBorderColor": "#D4D7DA",
-                //   "borderColor": "#D4D7DA",
-                //   "isPassword": false,
-                //   "textSize": null,
-                //   "textColor": null,
-                //   "readOnly": false,
-                //   "maxLines": 1,
-                // },
                 {
                   "type": "text",
                   "key": "Address",
@@ -365,48 +339,10 @@ var jsondemo = {
 };
 
 /// Nhận dữ liệu từ native thông qua MethodChannel trước khi chạy app
-Future<Map<String, dynamic>> getInitDataFromNative() async {
-  const platform = MethodChannel('setup_config');
-  final completer = Completer<Map<String, dynamic>>();
-
-  platform.setMethodCallHandler((call) async {
-    try {
-      if (call.method == 'sendData') {
-        String args = call.arguments;
-        print('------------------------arg------------$args');
-     /*   Map<String, dynamic> parsed = normalizeListInMap(jsonDecode(args));*/
-        Map<String,dynamic> json = jsonDecode(args);
-        print('------------------------json------------$json');
-        completer.complete(json);
-      }
-    } catch (e) {
-      print("Lỗi khi parse JSON: $e");
-      completer.complete(jsondemo);
-    }
-  });
-
-  return completer.future;
+Future<void> getInitDataFromNative() async {
+  setupConfigPage3('this is token');
 }
 
-Map<String, dynamic> normalizeListInMap(Map<String, dynamic> original) {
-  final normalized = <String, dynamic>{};
-
-  original.forEach((key, value) {
-    if (value is List) {
-      // Nếu là List, lọc ra những phần tử là Map<String, dynamic>
-      List<Map<String, dynamic>> mapList = value
-          .where((item) => item is Map<String, dynamic>)
-          .map((item) => item as Map<String, dynamic>)
-          .toList();
-
-      normalized[key] = mapList;
-    } else {
-      normalized[key] = value;
-    }
-  });
-
-  return normalized;
-}
 
 class MyApp extends StatelessWidget {
   final PageUrls initData;

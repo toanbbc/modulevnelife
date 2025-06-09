@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_io_builder/utils/iterable_extension.dart';
-import 'package:modulevnelife/dynamic_form_warehouse/dynamic_form_event/map_change.dart';
 
+import '../dynamic_form_event/map_change.dart';
 import '../dynamic_form_generate/data_builder.dart';
 import '../dynamic_form_widget/base_screen.dart';
 import '../dynamic_form_widget/core_text.dart';
@@ -62,13 +62,14 @@ class _WizardState extends State<Wizard> {
 
   @override
   void initState() {
-    _mapAnswers = widget.mapAnswers;
-    getPartMap();
-    listenStream();
     if (widget.pages?.isNotEmpty ?? false) {
       pages = widget.pages!;
       currentPageId = widget.pages?.first['key'] ?? '0';
     }
+    _mapAnswers = widget.mapAnswers;
+    getPartMap();
+    listenStream();
+
     super.initState();
   }
 
@@ -88,11 +89,11 @@ class _WizardState extends State<Wizard> {
   void clearDataWhenPartnerChange(String partnerKey) {
     final currentMap = _partnerMap.entries
         .firstWhereOrNull((entry) => entry.value == partnerKey);
-    if (currentMap == null) return;
-    setState(() {
-      _mapAnswers[currentMap.key] = null;
-    });
-    clearDataWhenPartnerChange(currentMap.key);
+    if(currentMap == null) return;
+      setState(() {
+        _mapAnswers[currentMap.key] = null;
+      });
+      clearDataWhenPartnerChange(currentMap.key);
   }
 
   void getPartMap() {
@@ -102,7 +103,7 @@ class _WizardState extends State<Wizard> {
     _partnerMap = partnerMapLinks;
   }
 
-  Map<String, dynamic> extractPartnerMap(Map<String, dynamic> node) {
+  Map<String, dynamic> extractPartnerMap(Map<String,dynamic> node) {
     final Map<String, dynamic> result = {};
 
     void recurse(dynamic node) {
@@ -130,6 +131,7 @@ class _WizardState extends State<Wizard> {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
+      resizeToAvoidBottomInset: false,
       customAppBar: AppBar(
         backgroundColor: Colors.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -139,20 +141,21 @@ class _WizardState extends State<Wizard> {
         centerTitle: false,
         leading: InkWell(
           onTap: () {
-            if (!Navigator.canPop(context)) {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              print("------------------bbvvvvvvv------------");
               channel.invokeMethod(
                 'finishActivity',
-                jsonEncode(_mapAnswers),
+                _mapAnswers,
               );
-            } else {
-              Navigator.pop(context);
             }
           },
           child: const Icon(Icons.arrow_back, color: Color(0xffC10800)),
         ),
         titleSpacing: 0,
         title: OneUiText.textWidget(
-          title: getTitleCurrentPage() ?? "",
+          title: genTitle() ,
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
@@ -169,7 +172,7 @@ class _WizardState extends State<Wizard> {
               SliverPadding(
                 padding: EdgeInsets.only(
                     // bottom: 0),
-                    bottom: MediaQuery.of(context).viewInsets.bottom * 0.5),
+                    bottom: 24),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
                     [
@@ -216,10 +219,14 @@ class _WizardState extends State<Wizard> {
       return [SizedBox()];
     }
   }
-
-  String? getTitleCurrentPage() {
-    final currentPage =
-        pages.firstWhere((element) => element['key'] == currentPageId);
-    return currentPage['title'] as String?;
+  String  genTitle() {
+    try {
+      final data = pages.firstWhere((element) => element['key'] == currentPageId);
+      final title = data['title'];
+      return title;
+    } catch (e) {
+      print("-------------lỗi----------$e");
+      return 'lỗi';
+    }
   }
 }

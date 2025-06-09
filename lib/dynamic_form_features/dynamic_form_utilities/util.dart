@@ -71,8 +71,7 @@ class Util {
     }
   }
 
-  static String getRequest(
-    List<Map<String, dynamic>>? request,
+  static String getRequest(List<Map<String, dynamic>>? request,
     Map<String, dynamic>? partnerMap,
   ) {
     print('-----------requestStaert-------------$request');
@@ -97,8 +96,7 @@ class Util {
     return result;
   }
 
-  static List<Map<String, dynamic>>? convertToListMap(
-      List<dynamic>? listDynamic) {
+  static List<Map<String, dynamic>>? convertToListMap(List<dynamic>? listDynamic) {
     if (listDynamic == null) {
       return null;
     }
@@ -111,11 +109,50 @@ class Util {
 /*    return parsedList;*/
   }
 
-  static double? convertToDouble(dynamic value) {
+  static double? convertToDouble(dynamic value){
     if (value == null) return null;
     if (value is int) {
       return value.toDouble();
     }
     return value;
   }
-}
+
+  static Alignment? convertToAlignment(String alignment){
+    if (alignment == 'center') {
+      return Alignment.center;
+    } else if (alignment == 'centerLeft') {
+      return Alignment.centerLeft;
+    } else if (alignment == 'centerRight') {
+      return Alignment.centerRight;
+    }else if(alignment == 'topCenter'){
+      return Alignment.topCenter;
+    } else if (alignment == 'topLeft') {
+      return Alignment.topLeft;
+    } else if (alignment == 'topRight') {
+      return Alignment.topRight;
+    }else if(alignment == 'bottomLeft'){
+      return Alignment.bottomCenter;
+    }else if(alignment == 'bottomLeft'){
+      return Alignment.bottomLeft;
+    }else if(alignment == 'bottomRight'){
+      return Alignment.bottomRight;
+    }
+    return null;
+  }
+
+  static BoxFit? convertToBoxFit(String? fit){
+    if (fit == 'contain') {
+      return BoxFit.contain;
+    } else if (fit == 'cover') {
+      return BoxFit.cover;
+    } else if (fit == 'fill') {
+      return BoxFit.fill;
+    } else if (fit == 'fitHeight') {
+      return BoxFit.fitHeight;
+    } else if (fit == 'fitWidth') {
+      return BoxFit.fitWidth;
+    }
+    return null;
+  }
+
+ }

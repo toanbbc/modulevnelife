@@ -31,10 +31,12 @@ class _FormScreenState extends State<FormScreen> {
       final listenEvent = event as Map<String, dynamic>;
       final key = listenEvent.keys.first;
       final value = listenEvent.values.first;
-      setState(() {
-        _mapAnswers[key] = value;
-      });
-      clearDataWhenPartnerChange(key);
+      if (_mapAnswers[key] != value) {
+        setState(() {
+          _mapAnswers[key] = value;
+        });
+        clearDataWhenPartnerChange(key);
+      }
     });
   }
 
